@@ -5,6 +5,15 @@ import OpenAI from 'openai';
 export async function POST(req: NextRequest) {
   const body = await req.json();
 
+
+  if (!process.env.OPENAI_API_KEY && !process.env.OLLAMA_BASE_URL) {
+    return NextResponse.json(
+      { error: 'Server misconfigured: set OPENAI_API_KEY or OLLAMA_BASE_URL' },
+      { status: 500 },
+    );
+  }
+
+
   if (process.env.OLLAMA_BASE_URL) {
     const openai = new OpenAI({
       apiKey: process.env.OPENAI_API_KEY || 'ollama',
