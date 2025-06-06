@@ -12,7 +12,8 @@ There are two main patterns demonstrated:
 
 - This is a Next.js typescript app. Install dependencies with `npm i`.
 - Add your `OPENAI_API_KEY` to the environment. You can copy `.env.sample` to `.env` and fill in your key.
-- To use [Ollama](https://ollama.ai/) or another OpenAI-compatible server, set `OLLAMA_BASE_URL` to its base URL (for example `http://localhost:11434/v1`). When `OLLAMA_BASE_URL` is set the `OPENAI_API_KEY` value will be ignored.
+- To use [Ollama](https://ollama.ai/) or another OpenAI-compatible server, set `OLLAMA_BASE_URL` to its base URL (for example `http://localhost:11434/v1`).
+  The `OPENAI_API_KEY` is still required for realtime sessions.
 - Start the server with `npm run dev`
 - Open your browser to [http://localhost:3000](http://localhost:3000). It should default to the `chatSupervisor` Agent Config.
 - You can change examples via the "Scenario" dropdown in the top right.
