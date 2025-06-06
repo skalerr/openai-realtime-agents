@@ -1,8 +1,41 @@
 import { NextResponse } from "next/server";
 
 export async function GET() {
-  return NextResponse.json(
-    { error: "Realtime sessions are not supported with Ollama" },
-    { status: 400 }
-  );
+  if (process.env.OLLAMA_BASE_URL) {
+    return NextResponse.json(
+      { error: "Realtime sessions are not supported with Ollama" },
+      { status: 400 }
+    );
+  }
+
+  if (!process.env.OPENAI_API_KEY) {
+    return NextResponse.json(
+      { error: "Server misconfigured: set OPENAI_API_KEY" },
+      { status: 500 }
+    );
+  }
+
+  try {
+    const response = await fetch(
+      "https://api.openai.com/v1/realtime/sessions",
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          model: "gpt-4o-realtime-preview-2024-12-17",
+        }),
+      }
+    );
+    const data = await response.json();
+    return NextResponse.json(data);
+  } catch (error) {
+    console.error("Error in /session:", error);
+    return NextResponse.json(
+      { error: "Internal Server Error" },
+      { status: 500 }
+    );
+  }
 }
