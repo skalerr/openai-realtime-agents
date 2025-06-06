@@ -1,6 +1,6 @@
 # Realtime API Agents Demo
 
-This is a demonstration of more advanced patterns for voice agents, using the OpenAI Realtime API and the OpenAI Agents SDK. 
+This demo showcases advanced patterns for voice agents using the OpenAI Agents SDK and a local Ollama server.
 
 ** NOTE:** For a version that does not use the OpenAI Agents SDK, see the [branch without-agents-sdk](https://github.com/openai/openai-realtime-agents/tree/without-agents-sdk).
 
@@ -11,8 +11,7 @@ There are two main patterns demonstrated:
 ## Setup
 
 - This is a Next.js typescript app. Install dependencies with `npm i`.
-- Add your `OPENAI_API_KEY` to your env. Either add it to your `.bash_profile` or equivalent, or copy `.env.sample` to `.env` and add it there.
-- To use [Ollama](https://ollama.ai/) or another OpenAI-compatible server, set `OLLAMA_BASE_URL` to its base URL (for example `http://localhost:11434/v1`). When `OLLAMA_BASE_URL` is set the `OPENAI_API_KEY` value will be ignored. If you see an invalid API key error after updating your environment, restart the dev server so Next.js picks up the changes.
+- Run [Ollama](https://ollama.ai/) locally and set `OLLAMA_BASE_URL` to its base URL (for example `http://localhost:11434/v1`).
 - Start the server with `npm run dev`
 - Open your browser to [http://localhost:3000](http://localhost:3000). It should default to the `chatSupervisor` Agent Config.
 - You can change examples via the "Scenario" dropdown in the top right.
