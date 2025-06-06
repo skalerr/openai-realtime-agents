@@ -1,13 +1,6 @@
 import { NextResponse } from "next/server";
 
 export async function GET() {
-  if (process.env.OLLAMA_BASE_URL) {
-    return NextResponse.json(
-      { error: "Realtime sessions are not supported with Ollama" },
-      { status: 400 }
-    );
-  }
-
   if (!process.env.OPENAI_API_KEY) {
     return NextResponse.json(
       { error: "Server misconfigured: set OPENAI_API_KEY" },
