@@ -1,17 +1,55 @@
 import { NextRequest, NextResponse } from 'next/server';
+import OpenAI from 'openai';
 
-// Proxy endpoint for Ollama
+// Proxy endpoint for the OpenAI Responses API or Ollama
 export async function POST(req: NextRequest) {
   const body = await req.json();
 
-  if (!process.env.OLLAMA_BASE_URL) {
+  if (!process.env.OPENAI_API_KEY && !process.env.OLLAMA_BASE_URL) {
     return NextResponse.json(
-      { error: 'Server misconfigured: set OLLAMA_BASE_URL' },
+      { error: 'Server misconfigured: set OPENAI_API_KEY or OLLAMA_BASE_URL' },
       { status: 500 },
     );
   }
 
-  return await ollamaResponse(body);
+  if (process.env.OLLAMA_BASE_URL) {
+    return await ollamaResponse(body);
+  }
+
+  const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY! });
+
+  if (body.text?.format?.type === 'json_schema') {
+    return await structuredResponse(openai, body);
+  }
+  return await textResponse(openai, body);
+}
+
+async function structuredResponse(openai: OpenAI, body: any) {
+  try {
+    const response = await openai.responses.parse({
+      ...(body as any),
+      stream: false,
+    } as any);
+
+    return NextResponse.json(response);
+  } catch (err: any) {
+    console.error('responses proxy error', err);
+    return NextResponse.json({ error: 'failed' }, { status: 500 });
+  }
+}
+
+async function textResponse(openai: OpenAI, body: any) {
+  try {
+    const response = await openai.responses.create({
+      ...(body as any),
+      stream: false,
+    } as any);
+
+    return NextResponse.json(response);
+  } catch (err: any) {
+    console.error('responses proxy error', err);
+    return NextResponse.json({ error: 'failed' }, { status: 500 });
+  }
 }
 
 async function ollamaResponse(body: any) {
