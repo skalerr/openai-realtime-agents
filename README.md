@@ -12,6 +12,7 @@ There are two main patterns demonstrated:
 
 - This is a Next.js typescript app. Install dependencies with `npm i`.
 - Add your `OPENAI_API_KEY` to your env. Either add it to your `.bash_profile` or equivalent, or copy `.env.sample` to `.env` and add it there.
+- To use [Ollama](https://ollama.ai/) or another OpenAI-compatible server, set `OLLAMA_BASE_URL` to its base URL (for example `http://localhost:11434/v1`).
 - Start the server with `npm run dev`
 - Open your browser to [http://localhost:3000](http://localhost:3000). It should default to the `chatSupervisor` Agent Config.
 - You can change examples via the "Scenario" dropdown in the top right.
